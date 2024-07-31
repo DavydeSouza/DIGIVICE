@@ -1,15 +1,32 @@
 const digiContainer = document.querySelector("#digiContainer");
 const digiCount = 1460;
 let isSearching = false;
+let digimonsList = [];
+
+const saveDigimonsToLocalStorage = () => {
+    localStorage.setItem("digimonsList", JSON.stringify(digimonsList));
+};
+
+const loadDigimonsFromLocalStorage = () => {
+    const storedList = localStorage.getItem("digimonsList");
+    if (storedList) {
+        digimonsList = JSON.parse(storedList);
+        return true;
+    }
+    return false;
+};
 
 const fetchDigimon = async () => {
     for (let i = 1; i <= digiCount; i++) {
-        if (isSearching == false) { // Verifica se não estamos em modo de pesquisa
+        if (isSearching == false) {
             await getDigimons(i);
         } else {
-            break; // Para de carregar se estivermos pesquisando
+            break;
         }
     }
+   
+    digimonsList.sort((a, b) => a.id - b.id);
+    saveDigimonsToLocalStorage();
 };
 
 const getDigimons = async (id) => {
@@ -17,30 +34,25 @@ const getDigimons = async (id) => {
     try {
         const resp = await fetch(url);
         const data = await resp.json();
+        digimonsList.push(data);
         createDigimonCard(data);
     } catch (error) {
         console.error(`Error fetching Digimon with ID ${id}:`, error);
     }
 };
-const fetchDigimonByName = async (name) => {
+
+const fetchDigimonByName = (name) => {
     isSearching = true;
     console.log(`Fetching Digimon with name: ${name}`);
-    const url = `https://digi-api.com/api/v1/digimon/${name.toLowerCase()}`;
-    try {
-        const resp = await fetch(url);
-        if (!resp.ok) {
-            throw new Error(`Digimon not found`);
-        }
-        digiContainer.innerHTML = ''; // Limpa os resultados anteriores
-        const data = await resp.json();
-        console.log(`Fetched Digimon data:`, data);
-        createDigimonCard(data);
-    } catch (error) {
-        console.error(`Error fetching Digimon:`, error);
+    const filteredDigimons = digimonsList.filter(digi => digi.name.toLowerCase() === name.toLowerCase());
+    digiContainer.innerHTML = '';
+    if (filteredDigimons.length > 0) {
+        filteredDigimons.forEach(digi => createDigimonCard(digi));
+    } else {
+        console.error(`Digimon not found`);
         digiContainer.innerHTML = '<p>Digimon not found. Please try again.</p>';
-    } finally {
-        isSearching = false; // Volta ao modo de carregamento normal
     }
+    isSearching = false;
 };
 
 const createDigimonCard = (digi) => {
@@ -71,29 +83,34 @@ const createDigimonCard = (digi) => {
     digiContainer.appendChild(card);
 };
 
-document.querySelector("#searchButton").addEventListener("click",() => {
+const displayDigimons = () => {
+    digiContainer.innerHTML = '';
+    digimonsList.forEach(digi => createDigimonCard(digi));
+};
+
+document.querySelector("#searchButton").addEventListener("click", () => {
     const searchInput = document.querySelector("#searchInput").value.trim();
     if (searchInput) {
         fetchDigimonByName(searchInput);
-    }else if (searchInput == ''){
-        digiContainer.innerHTML = '';
-        fetchDigimon();
+    } else if (searchInput == '') {
+        displayDigimons();
     }
 });
 
 document.querySelector("#searchInput").addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {  
-        event.preventDefault(); // Evita o comportamento padrão do Enter
+    if (event.key === "Enter") {
+        event.preventDefault();
         const searchInput = document.querySelector("#searchInput").value.trim();
         if (searchInput) {
             fetchDigimonByName(searchInput);
         } else {
-            digiContainer.innerHTML = '';
-            fetchDigimon();
+            displayDigimons();
         }
     }
 });
 
-
-
-fetchDigimon();
+if (!loadDigimonsFromLocalStorage()) {
+    fetchDigimon();
+} else {
+    displayDigimons();
+}
