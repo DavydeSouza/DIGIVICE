@@ -44,16 +44,16 @@ h1 {
     box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
     margin: 10px;
     padding: 20px;
-    width: 250px;  /* Set a fixed width for the cards */
-    height: 350px; /* Set a fixed height for the cards */
+    width: 250px; 
+    height: 350px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensure spacing between elements inside the card */
+    justify-content: space-between;
 }
 
 .imgContainer {
-    height: 200px; /* Set a fixed height for the image container */
+    height: 200px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,7 @@ h1 {
 .imgContainer img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Ensure the image fits within the container without being distorted */
+    object-fit: contain;
 }
 
 .info {
@@ -81,10 +81,12 @@ h1 {
     margin: 15px 0 7px;
     letter-spacing: 1.5px;
 }
+
 .digititulo{
     margin-top: 90px;
     align-self: center;
 }
+
 .search-container {
     width: 100%;
     display: flex;
