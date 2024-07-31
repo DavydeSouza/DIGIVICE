@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Silkscreen:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+body {
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 33%, rgb(7, 174, 207) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    letter-spacing: 5px;
+    font-family: "Silkscreen", sans-serif;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 2px 13px;
+    border-radius: 10px;
+    color: #e97509;
+    font-weight: 400;
+    font-style: normal;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.digiContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.digimon {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
+    margin: 10px;
+    padding: 20px;
+    width: 250px;  /* Set a fixed width for the cards */
+    height: 350px; /* Set a fixed height for the cards */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure spacing between elements inside the card */
+}
+
+.imgContainer {
+    height: 200px; /* Set a fixed height for the image container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgContainer img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensure the image fits within the container without being distorted */
+}
+
+.info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.number {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 2px 13px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.name {
+    margin: 15px 0 7px;
+    letter-spacing: 1.5px;
+}
+.digititulo{
+    margin-top: 90px;
+    align-self: center;
+}
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input {
+    width: 80%;
+    background-color: #ECECEC;
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    outline: none;
+    font-size: 0.9em;
+    padding: 10px;
+    font-weight: 600;
+    color: #343434;
+    margin-right: 10px;
+}
+
+.search-button {
+    background-color: #e97509;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #d66408;
+}
