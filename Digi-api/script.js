@@ -1,116 +1,108 @@
-const digiContainer = document.querySelector("#digiContainer");
-const digiCount = 1460;
-let isSearching = false;
-let digimonsList = [];
+$(document).ready(function() {
+    const itemsPerPage = 20;
+    let currentPage = 0;
+    let totalPages = 1;
+    const apiUrl = 'https://digi-api.com/api/v1/digimon';
 
-const saveDigimonsToLocalStorage = () => {
-    localStorage.setItem("digimonsList", JSON.stringify(digimonsList));
-};
+    const fetchTotalData = () => {
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            success: function(data) {
+                totalPages = Math.ceil(data.pageable.totalElements / itemsPerPage);
+                fetchDigimonData(currentPage);
+            }
+        });
+    };
 
-const loadDigimonsFromLocalStorage = () => {
-    const storedList = localStorage.getItem("digimonsList");
-    if (storedList) {
-        digimonsList = JSON.parse(storedList);
-        return true;
-    }
-    return false;
-};
+    function isNullOrEmpty(value) {
+        return value === null || value === undefined || value === '';
+      }
 
-const fetchDigimon = async () => {
-    for (let i = 1; i <= digiCount; i++) {
-        if (isSearching == false) {
-            await getDigimons(i);
-        } else {
-            break;
+    $("#searchButton").on("click", function(){
+        let pesquisa = $("#searchInput").val();
+        if(isNullOrEmpty(pesquisa)){
+            fetchDigimonData();
+            return false;
         }
-    }
-   
-    digimonsList.sort((a, b) => a.id - b.id);
-    saveDigimonsToLocalStorage();
-};
 
-const getDigimons = async (id) => {
-    const url = `https://digi-api.com/api/v1/digimon/${id}`;
-    try {
-        const resp = await fetch(url);
-        const data = await resp.json();
-        digimonsList.push(data);
-        createDigimonCard(data);
-    } catch (error) {
-        console.error(`Error fetching Digimon with ID ${id}:`, error);
-    }
-};
+        $.ajax({
+            url: apiUrl + "/" + pesquisa,
+            method: 'GET',
+            success: function(data) {
+                const digiContainer = $('#digiContainer');
+                digiContainer.empty();
+                const digimonInnerHTML = `
+                <div class="digimon">
+                    <div class="imgContainer">
+                        <img src="${data.images[0].href}" alt="${data.name}">
+                    </div>
+                    <div class="info">
+                        <span class="number">${data.id ? data.id.toString().padStart(3, '0') : "000"}</span>
+                        <h3 class="name">${data.name}</h3>
+                    </div>
+                </div>`;
 
-const fetchDigimonByName = (name) => {
-    isSearching = true;
-    console.log(`Fetching Digimon with name: ${name}`);
-    const filteredDigimons = digimonsList.filter(digi => digi.name.toLowerCase() === name.toLowerCase());
-    digiContainer.innerHTML = '';
-    if (filteredDigimons.length > 0) {
-        filteredDigimons.forEach(digi => createDigimonCard(digi));
-    } else {
-        console.error(`Digimon not found`);
-        digiContainer.innerHTML = '<p>Digimon not found. Please try again.</p>';
-    }
-    isSearching = false;
-};
+            digiContainer.append(digimonInnerHTML);
+            }
+        });
 
-const createDigimonCard = (digi) => {
-    const card = document.createElement('div');
-    card.classList.add("digimon");
+    })
 
-    const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
-    const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
+    const fetchDigimonData = (page = 0) => {
+        $.ajax({
+            url: `${apiUrl}`,
+            method: 'GET',
+            success: function(data) {
+                displayDigimon(data.content);
+                updatePagination();
+            }
+        });
+    };
 
-    let digiTypes = "Unknown";
-    if (digi.types && digi.types[0] && digi.types[0].type) {
-        digiTypes = digi.types[0].type.toString();
-    }
+    const displayDigimon = (digimonList) => {
+        const digiContainer = $('#digiContainer');
+        digiContainer.empty();
 
-    const nameForImage = name.replace(/ /g, '_');
+        digimonList.forEach(digi => {
+            const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
+            const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
 
-    const digimonInnerHTML = `
-        <div class="imgContainer">
-            <img src="https://digi-api.com/images/digimon/w/${nameForImage}.png" alt="${name}">
-        </div>
-        <div class="info">
-            <span class="number">${id}</span>
-            <h3 class="name">${name}</h3>
-            <small class="type">Type: <span>${digiTypes}</span></small>
-        </div>`;
+            const digimonInnerHTML = `
+                <div class="digimon">
+                    <div class="imgContainer">
+                        <img src="${digi.image}" alt="${name}">
+                    </div>
+                    <div class="info">
+                        <span class="number">${id}</span>
+                        <h3 class="name">${name}</h3>
+                    </div>
+                </div>`;
 
-    card.innerHTML = digimonInnerHTML;
-    digiContainer.appendChild(card);
-};
+            digiContainer.append(digimonInnerHTML);
+        });
+    };
 
-const displayDigimons = () => {
-    digiContainer.innerHTML = '';
-    digimonsList.forEach(digi => createDigimonCard(digi));
-};
+    const updatePagination = () => {
+        $('#pageNumber').text(`Page ${currentPage + 1}`);
+        $('#prevPage').prop('disabled', currentPage === 0);
+        $('#nextPage').prop('disabled', currentPage >= totalPages - 1);
+    };
 
-document.querySelector("#searchButton").addEventListener("click", () => {
-    const searchInput = document.querySelector("#searchInput").value.trim();
-    if (searchInput) {
-        fetchDigimonByName(searchInput);
-    } else if (searchInput == '') {
-        displayDigimons();
-    }
-});
-
-document.querySelector("#searchInput").addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        const searchInput = document.querySelector("#searchInput").value.trim();
-        if (searchInput) {
-            fetchDigimonByName(searchInput);
-        } else {
-            displayDigimons();
+    $('#prevPage').click(function() {
+        if (currentPage > 0) {
+            currentPage--;
+            fetchDigimonData(currentPage);
         }
-    }
-});
+    });
 
-if (!loadDigimonsFromLocalStorage()) {
-    fetchDigimon();
-} else {
-    displayDigimons();
-}
+    $('#nextPage').click(function() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            fetchDigimonData(currentPage);
+        }
+    });
+
+    // Inicializa os dados e exibe a primeira página
+    fetchTotalData();
+});

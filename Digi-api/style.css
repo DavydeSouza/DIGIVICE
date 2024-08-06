@@ -35,7 +35,7 @@ h1 {
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 100%;
 }
 
 .digimon {
@@ -127,6 +127,38 @@ h1 {
     font-size: 0.9em;
     font-weight: 600;
     color: white;
+    cursor: pointer;
+}
+
+#nextPage{
+    background-color: #e97509;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: black;
+    cursor: pointer;
+}
+
+#prevPage{
+    background-color: #e97509;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: black;
+    cursor: pointer;
+}
+
+#pageNumber{
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #e97509;
     cursor: pointer;
 }
 
