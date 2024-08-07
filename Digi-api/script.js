@@ -1,16 +1,17 @@
 $(document).ready(function() {
     const itemsPerPage = 20;
     let currentPage = 0;
-    let totalPages = 1;
+    let totalPages = 0;
     const apiUrl = 'https://digi-api.com/api/v1/digimon';
+    const pagesToLoad = 9;
 
     const fetchTotalData = () => {
         $.ajax({
             url: apiUrl,
             method: 'GET',
             success: function(data) {
-                totalPages = Math.ceil(data.pageable.totalElements / itemsPerPage);
-                fetchDigimonData(currentPage);
+                totalPages = 1; // Inicializa totalPages
+                fetchDigimonData(currentPage, pagesToLoad); // Carrega páginas iniciais
             }
         });
     };
@@ -20,7 +21,7 @@ $(document).ready(function() {
     }
 
     $("#searchButton").on("click", function(){
-       pesquisar();
+        pesquisar();
     });
 
     $("#searchInput").on('keydown', function(e){
@@ -32,7 +33,9 @@ $(document).ready(function() {
     function pesquisar() {
         let pesquisa = $("#searchInput").val();
         if (isNullOrEmpty(pesquisa)) {
-            fetchDigimonData(currentPage);
+            const digiContainer = $('#digiContainer');
+            digiContainer.empty();
+            fetchDigimonData(currentPage, 8); // Ajuste o número de páginas conforme necessário
             $('.pagination').show();
             return false;
         }
@@ -41,6 +44,7 @@ $(document).ready(function() {
             url: `${apiUrl}/${pesquisa}`,
             method: 'GET',
             success: function(data) {
+                debugger;
                 const name = data.name ? data.name.charAt(0).toUpperCase() + data.name.slice(1) : "Unknown";
                 const id = data.id ? data.id.toString().padStart(3, '0') : "000";
                 
@@ -53,7 +57,7 @@ $(document).ready(function() {
                     </div>
                     <div class="info">
                         <span class="number">${id}</span>
-                        <h4 class="name">${name}</h4>
+                        <h5 class="name" style="font-size:20px">${name}</h5>
                     </div>
                 </a>`;
 
@@ -63,52 +67,92 @@ $(document).ready(function() {
                 // Event listener for card clicks
                 $('.digimon').on('click', function() {
                     const id = $(this).data('id');
-                    const name = $(this).data('name');
-                    const image = $(this).data('image');
+                    var data = loadInfoDigimon(id);
+                    const name = data.name
+                    const description = data.descriptions[1].description;
+                    
+                    const image = data.images[0].href;
+                   
 
-                    name ? name.charAt(0).toUpperCase() + name.slice(1) : "Unknown";
-                    id ? id.toString().padStart(3, '0') : "000";
-            
-                    $('#digimonModalLabel').text(name);
                     $('.modal-body').html(`
                         <img src="${image}" class="img-fluid" alt="${name}">
                         <div class="info">
                             <span class="number">${id}</span>
-                            <h4 class="name">${name}</h4>
+                            <h5 class="name">${name}</h5>
+                            <p class= "description">${description}</p>
                         </div>
                     `);
                 });
+            },
+            error: function(data){
+                const digiContainer = $('#digiContainer');
+                digiContainer.empty();
+                const digimonInnerHTML = `
+                    <h1>Esse Digimon não existe </h1>
+                    <img src="assests/Cutemon_sad-removebg-preview.png">
+                    <a href="javascript:reload()">voltar para o inicio</a>
+                `;
+                digiContainer.append(digimonInnerHTML);
+                return false;
             }
         });
     }
+    const fetchDigimonData = (page = 0, numPages = 1) => {
+        var count = $('a.digimon').length;
 
-    const fetchDigimonData = (page = 0) => {
-        $.ajax({
-            url: `${apiUrl}?page=${page}&size=${itemsPerPage}`,
-            method: 'GET',
-            success: function(data) {
-                displayDigimon(data.content);
-                updatePagination();
+        if (count === 0) {
+            for (let i = 0; i < numPages; i++) {
+                $.ajax({
+                    url: `${apiUrl}${i===0? "" : `?page=${i}`}`,
+                    method: 'GET',
+                    async: false,
+                    success: function(data) {
+                        totalPages = Math.max(totalPages, page + i + 1); // Atualiza totalPages
+                        displayDigimon(data.content);
+                    }
+                });
             }
-        });
+        } else {
+            for (let i = 0; i < pagesToLoad; i++) {
+                $.ajax({
+                    url: `${apiUrl}?page=${currentPage + totalPages + i}&size=${itemsPerPage}`,
+                    method: 'GET',
+                    success: function(data) {
+                        totalPages++;
+                        displayDigimon(data.content);
+                    }
+                });
+            }
+        }
     };
+
+    const loadInfoDigimon = (id) =>{
+        let retorno = []
+        $.ajax({
+            url :`${apiUrl}/${id}`,
+            method: 'GET',
+            async: false,
+            success: function(data){
+                retorno = data;
+            }
+        })
+        return retorno;
+    }
 
     const displayDigimon = (digimonList) => {
         const digiContainer = $('#digiContainer');
-        digiContainer.empty();
     
         digimonList.forEach(digi => {
             const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
             const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
-    
             const digimonInnerHTML = `
-                <a href="#" class="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${digi.id}" data-name="${name}" data-image="${digi.image}">
+                <a href="#" class="digimon fade-in" id="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${digi.id}" data-name="${name}" data-image="${digi.image}">
                     <div class="imgContainer">
                         <img src="${digi.image}" alt="${name}">
                     </div>
                     <div class="info">
                         <span class="number">${id}</span>
-                        <h4 class="name">${name}</h4>
+                        <h4 class="name" style="font-size:20px">${name}</h4>
                     </div>
                 </a>`;
     
@@ -119,39 +163,36 @@ $(document).ready(function() {
         $('.digimon').on('click', function() {
             const id = $(this).data('id');
             const name = $(this).data('name');
-            const image = $(this).data('image');
+            var data = loadInfoDigimon(id);
+            let description = '';
+            if (data.descriptions.length > 1){
+                 description = data.descriptions[1].description ?? "";
+            }
+                
+            const image = data.images[0].href;
+
+
     
-            $('#digimonModalLabel').text(name.charAt(0).toUpperCase() + name.slice(1));
             $('.modal-body').html(`
-                <img src="${image}" class="img-fluid" alt="${name.charAt(0).toUpperCase() + name.slice(1)}">
+                 <div class="text-center">
+                    <img src="${image}" class="img-fluid rounded shadow-sm mb-4" alt="${name.charAt(0).toUpperCase() + name.slice(1)}">
+                </div>
                 <div class="info">
-                    <span class="number">${id.toString().padStart(3, '0')}</span>
-                    <h4 class="name">${name}</h4>
+                    <span>${id.toString().padStart(3, '0')}</span>
+                    <h4 class="name mt-2">${name.charAt(0).toUpperCase() + name.slice(1)}</h4>
+                    <p class="description text-muted">${description}</p>
                 </div>
             `);
         });
     };
-    
-    const updatePagination = () => {
-        $('#pageNumber').text(`Page ${currentPage + 1}`);
-        $('#prevPage').prop('disabled', currentPage === 0);
-        $('#nextPage').prop('disabled', currentPage >= totalPages - 1);
-    };
 
-    $('#prevPage').click(function() {
-        if (currentPage > 0) {
-            currentPage--;
-            fetchDigimonData(currentPage);
+    $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+            fetchDigimonData(currentPage, 8); // Carrega mais páginas
         }
     });
 
-    $('#nextPage').click(function() {
-        if (currentPage < totalPages - 1) {
-            currentPage++;
-            fetchDigimonData(currentPage);
-        }
-    });
-
-    // Inicializa os dados e exibe a primeira página
+    // Inicializa os dados e exibe as páginas iniciais
     fetchTotalData();
+    $("#searchInput").focus();
 });

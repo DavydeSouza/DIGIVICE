@@ -7,50 +7,49 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="assests/tumblr_0582dd01120c1215ee52aba49370dea9_af66af14_540.webp" type="image/x-icon">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <img class="digititulo" src="assests/ca5ba7d121989a03a9e22518a3ccaab1-removebg-preview.png" alt="titulo">
     <h1>Digivice</h1>
     <div class="search-container">
-        <div class="search">
-            <input class="input" type="text" id="searchInput" placeholder="Pesquise um Digimon..." maxlength="20">
-            <button class="search-button" id="searchButton">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-            </button>
+        <div class="search text-center">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search Digimon ..." aria-label="Username" aria-describedby="basic-addon1" id="searchInput">
+            <button class="btn btn-warning text-white" id="searchButton" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+          </div>
         </div>
     </div>
     <div class="digiContainer" id="digiContainer">
     </div>
-    <div class="pagination">
-        <button id="prevPage">Previous</button>
-        <span id="pageNumber">Page 1</span>
-        <button id="nextPage">Next</button>
-    </div>
+
 </body>
 
 <!-- Modal -->
 <div class="modal fade" id="digimonModal" tabindex="-1" role="dialog" aria-labelledby="digimonModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content modal-background">
         <div class="modal-header">
-          <h5 class="modal-title" id="digimonModalLabel">Digimon Details</h5>
+          <h5 class="tittle">Digimon Details</h5> 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
+          
           <!-- Modal content will be injected here by JavaScript -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
+  
 </html>
 
 <!-- Popper.js (necessário para alguns componentes do Bootstrap) -->
@@ -58,6 +57,12 @@
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<script>
+    const reload = () => {
+    window.location.reload();
+    };
+
+</script>
 
 <script src="script.js"></script>
 

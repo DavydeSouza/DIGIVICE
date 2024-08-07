@@ -88,26 +88,21 @@ h1 {
 }
 
 .search-container {
+    justify-content: center;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
 .search {
-    display: flex;
+    width: 50%;
+    justify-content: center;
     align-items: center;
-    width: 100%;
 }
 
 .input {
-    width: 80%;
+    flex-grow: 1; 
     background-color: #ECECEC;
     border: 2px solid rgba(0, 0, 0, 0);
     border-radius: 5px;
@@ -116,7 +111,6 @@ h1 {
     padding: 10px;
     font-weight: 600;
     color: #343434;
-    margin-right: 10px;
 }
 
 .search-button {
@@ -128,44 +122,77 @@ h1 {
     font-weight: 600;
     color: white;
     cursor: pointer;
-}
-
-#nextPage{
-    background-color: #e97509;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 0.9em;
-    font-weight: 600;
-    color: black;
-    cursor: pointer;
-}
-
-#prevPage{
-    background-color: #e97509;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 0.9em;
-    font-weight: 600;
-    color: black;
-    cursor: pointer;
-}
-
-#pageNumber{
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #e97509;
-    cursor: pointer;
+    margin-left: 10px;
 }
 
 .search-button:hover {
     background-color: #d66408;
 }
-a{
+a.digimon{
     text-decoration: none;
-    color:black
+    color:black;
+}
+
+.modal-background { 
+    color: #000000; 
+}
+.modal-body img {
+max-width: 100%;
+height: auto;
+border-radius: 8px; /* Arredonda as bordas da imagem */
+}
+
+.modal-body p {
+font-size: 1.2rem;
+margin: 0.5rem 0;
+}
+
+.modal-content {
+border-radius: 8px; /* Arredonda as bordas da modal */
+}
+.btn-warning {
+background-color: #e97509;
+}
+.btn:hover{
+background-color: #d66408;
+
+}
+
+.digimon:hover,
+.digimon:focus {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-body .info {
+    text-align: center;
+}
+
+.modal-body .info .number {
+    font-size: 1.5rem;
+}
+
+.modal-body .info .name {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.modal-body .info .description {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
 }
