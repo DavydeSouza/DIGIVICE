@@ -165,3 +165,7 @@ h1 {
 .search-button:hover {
     background-color: #d66408;
 }
+a{
+    text-decoration: none;
+    color:black
+}

@@ -41,28 +41,50 @@ $(document).ready(function() {
             url: `${apiUrl}/${pesquisa}`,
             method: 'GET',
             success: function(data) {
+                const name = data.name ? data.name.charAt(0).toUpperCase() + data.name.slice(1) : "Unknown";
+                const id = data.id ? data.id.toString().padStart(3, '0') : "000";
+                
                 const digiContainer = $('#digiContainer');
                 digiContainer.empty();
                 const digimonInnerHTML = `
-                <div class="digimon">
+                <a href="#" class="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${data.id}" data-name="${name}" data-image="${data.images[0].href}">
                     <div class="imgContainer">
-                        <img src="${data.images[0].href}" alt="${data.name}">
+                        <img src="${data.images[0].href}" alt="${name}">
                     </div>
                     <div class="info">
-                        <span class="number">${data.id ? data.id.toString().padStart(3, '0') : "000"}</span>
-                        <h3 class="name">${data.name}</h3>
+                        <span class="number">${id}</span>
+                        <h4 class="name">${name}</h4>
                     </div>
-                </div>`;
+                </a>`;
 
                 digiContainer.append(digimonInnerHTML);
                 $('.pagination').hide();
+
+                // Event listener for card clicks
+                $('.digimon').on('click', function() {
+                    const id = $(this).data('id');
+                    const name = $(this).data('name');
+                    const image = $(this).data('image');
+
+                    name ? name.charAt(0).toUpperCase() + name.slice(1) : "Unknown";
+                    id ? id.toString().padStart(3, '0') : "000";
+            
+                    $('#digimonModalLabel').text(name);
+                    $('.modal-body').html(`
+                        <img src="${image}" class="img-fluid" alt="${name}">
+                        <div class="info">
+                            <span class="number">${id}</span>
+                            <h4 class="name">${name}</h4>
+                        </div>
+                    `);
+                });
             }
         });
     }
 
     const fetchDigimonData = (page = 0) => {
         $.ajax({
-            url: `${apiUrl}?page=${page}&size=${itemsPerPage}`, // Ajuste conforme a API para paginação
+            url: `${apiUrl}?page=${page}&size=${itemsPerPage}`,
             method: 'GET',
             success: function(data) {
                 displayDigimon(data.content);
@@ -74,26 +96,42 @@ $(document).ready(function() {
     const displayDigimon = (digimonList) => {
         const digiContainer = $('#digiContainer');
         digiContainer.empty();
-
+    
         digimonList.forEach(digi => {
             const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
             const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
-
+    
             const digimonInnerHTML = `
-                <div class="digimon">
+                <a href="#" class="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${digi.id}" data-name="${name}" data-image="${digi.image}">
                     <div class="imgContainer">
                         <img src="${digi.image}" alt="${name}">
                     </div>
                     <div class="info">
                         <span class="number">${id}</span>
-                        <h3 class="name">${name}</h3>
+                        <h4 class="name">${name}</h4>
                     </div>
-                </div>`;
-
+                </a>`;
+    
             digiContainer.append(digimonInnerHTML);
         });
-    };
 
+        // Event listener for card clicks
+        $('.digimon').on('click', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const image = $(this).data('image');
+    
+            $('#digimonModalLabel').text(name.charAt(0).toUpperCase() + name.slice(1));
+            $('.modal-body').html(`
+                <img src="${image}" class="img-fluid" alt="${name.charAt(0).toUpperCase() + name.slice(1)}">
+                <div class="info">
+                    <span class="number">${id.toString().padStart(3, '0')}</span>
+                    <h4 class="name">${name}</h4>
+                </div>
+            `);
+        });
+    };
+    
     const updatePagination = () => {
         $('#pageNumber').text(`Page ${currentPage + 1}`);
         $('#prevPage').prop('disabled', currentPage === 0);
@@ -108,7 +146,6 @@ $(document).ready(function() {
     });
 
     $('#nextPage').click(function() {
-        debugger;
         if (currentPage < totalPages - 1) {
             currentPage++;
             fetchDigimonData(currentPage);
