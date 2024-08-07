@@ -25,56 +25,55 @@
 
 <!-- Collapsible content -->
 <div class="collapse" id="navbarToggleExternalContent2">
-    <div class="bg-body-tertiary shadow-3 p-4">
-      <button class="btn btn-link btn-block border-bottom m-0" data-toggle="modal" data-target="#aboutModal">Sobre</button>
-    </div>
+  <div class="bg-body-tertiary shadow-3 p-4">
+      <button class="btn btn-link no-border custom-btn btn-block m-0" data-toggle="modal" data-target="#aboutModal">Sobre</button>
+  </div>
 </div>
 
-    <img class="digititulo" src="assests/ca5ba7d121989a03a9e22518a3ccaab1-removebg-preview.png" alt="titulo">
-    <h1>Digivice</h1>
-    <div class="search-container">
-        <div class="search text-center">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search Digimon ..." aria-label="Username" aria-describedby="basic-addon1" id="searchInput" required>
-            <button class="btn btn-warning text-white" id="searchButton" >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-              </svg>
-          </button>
-          </div>
-        </div>
+<img class="digititulo" src="assests/ca5ba7d121989a03a9e22518a3ccaab1-removebg-preview.png" alt="titulo">
+<h1>Digivice</h1>
+<div class="search-container">
+    <div class="search text-center">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search Digimon ..." aria-label="Username" aria-describedby="basic-addon1" id="searchInput" required>
+        <button class="btn btn-warning text-white" id="searchButton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+      </button>
+      </div>
     </div>
-    <div class="digiContainer" id="digiContainer">
-    </div>
+</div>
+<div class="digiContainer" id="digiContainer"></div>
 
-</body>
-
-<!-- Modal -->
+<!-- Modal Digimon Details -->
 <div class="modal fade" id="digimonModal" tabindex="-1" role="dialog" aria-labelledby="digimonModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-background">
         <div class="modal-header">
-          <h5 class="tittle">Digimon Details</h5> 
+          <h5 class="modal-title" id="digimonModalLabel">Digimon Details</h5> 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
-          
           <!-- Modal content will be injected here by JavaScript -->
         </div>
       </div>
     </div>
-  </div>
+</div>
 
-  <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+<!-- Modal Sobre -->
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="aboutModalLabel">Sobre</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="informações">
                 <p>Este é um Digivice virtual desenvolvido para mostrar informações sobre Digimons. Aproveite!</p>
             </div>
             <div class="modal-footer">
@@ -83,8 +82,6 @@
         </div>
     </div>
 </div>
-  
-</html>
 
 <!-- Popper.js (necessário para alguns componentes do Bootstrap) -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -93,12 +90,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
 
-<script>
-    const reload = () => {
-    window.location.reload();
-    };
-
-</script>
-
 <script src="script.js"></script>
 
+</body>
+</html>

@@ -220,3 +220,45 @@ background-color: #d66408;
     color: #e97509; /* Cor de destaque */
     font-weight: bold;
 }
+btn-link {
+    text-decoration: none; /* Remove o sublinhado */
+}
+
+/* Remover a linha de baixo no botão */
+.btn-link.no-border {
+    border-bottom: none; /* Remove a borda inferior */
+}
+
+/* Personalizar a aparência do botão */
+.btn-link.custom-btn {
+    color: #000000; /* Cor do texto */
+    padding: 10px 15px; /* Espaçamento interno */
+    font-size: 16px; /* Tamanho da fonte */
+}
+
+/* Adicionar hover efeito */
+.btn-link.custom-btn:hover {
+    color: #000000; /* Cor do texto no hover */
+    background-color: #e9ecef; /* Cor de fundo no hover */
+    text-decoration: none; /* Garantir que não tenha sublinhado */
+}
+
+/* Estilo para o botão quando está ativo (clicado) */
+.btn-link.custom-btn:active,
+.btn-link.custom-btn:focus {
+    color: #000000; /* Cor do texto após clicar */
+    background-color: transparent; /* Cor de fundo após clicar */
+    text-decoration: none; /* Garantir que não tenha sublinhado */
+    box-shadow: none; /* Remove o contorno do foco */
+}
+
+/* Adicionar foco no botão */
+.btn-link.custom-btn:focus {
+    outline: none; /* Remove o contorno padrão do foco */
+}
+.informações .p {
+    text-align: center;
+    margin: auto;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
