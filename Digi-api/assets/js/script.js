@@ -90,7 +90,7 @@ $(document).ready(function() {
                 const digimonInnerHTML = `
                 <div class="">
                     <h1>Esse Digimon não existe </h1>
-                    <img src="assests/Cutemon_sad-removebg-preview.png">
+                    <img src="assets/img/Cutemon_sad-removebg-preview.png">
                     <a href="javascript:reload()">voltar para o inicio</a>
                 <div>
                 `;
