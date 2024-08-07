@@ -17,17 +17,28 @@ $(document).ready(function() {
 
     function isNullOrEmpty(value) {
         return value === null || value === undefined || value === '';
-      }
+    }
 
     $("#searchButton").on("click", function(){
+       pesquisar();
+    });
+
+    $("#searchInput").on('keydown', function(e){
+        if(e.key === "Enter"){
+            pesquisar();
+        }  
+    });
+
+    function pesquisar() {
         let pesquisa = $("#searchInput").val();
-        if(isNullOrEmpty(pesquisa)){
-            fetchDigimonData();
+        if (isNullOrEmpty(pesquisa)) {
+            fetchDigimonData(currentPage);
+            $('.pagination').show();
             return false;
         }
 
         $.ajax({
-            url: apiUrl + "/" + pesquisa,
+            url: `${apiUrl}/${pesquisa}`,
             method: 'GET',
             success: function(data) {
                 const digiContainer = $('#digiContainer');
@@ -43,15 +54,15 @@ $(document).ready(function() {
                     </div>
                 </div>`;
 
-            digiContainer.append(digimonInnerHTML);
+                digiContainer.append(digimonInnerHTML);
+                $('.pagination').hide();
             }
         });
-
-    })
+    }
 
     const fetchDigimonData = (page = 0) => {
         $.ajax({
-            url: `${apiUrl}`,
+            url: `${apiUrl}?page=${page}&size=${itemsPerPage}`, // Ajuste conforme a API para paginação
             method: 'GET',
             success: function(data) {
                 displayDigimon(data.content);
@@ -97,6 +108,7 @@ $(document).ready(function() {
     });
 
     $('#nextPage').click(function() {
+        debugger;
         if (currentPage < totalPages - 1) {
             currentPage++;
             fetchDigimonData(currentPage);
