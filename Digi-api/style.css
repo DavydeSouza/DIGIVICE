@@ -168,8 +168,11 @@ background-color: #d66408;
     text-align: center;
 }
 
-.modal-body .info .number {
-    font-size: 1.5rem;
+.modal-body .number {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5em;
+    padding: 2px 13px;
+    border-radius: 10px;
 }
 
 .modal-body .info .name {
@@ -195,4 +198,25 @@ background-color: #d66408;
 
 .fade-in {
     animation: fadeIn 0.5s ease-in-out;
+}
+.noDigi {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.noDigi h1 {
+    margin-bottom: 20px;
+}
+
+.noDigi img {
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+.noDigi a {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #e97509; /* Cor de destaque */
+    font-weight: bold;
 }

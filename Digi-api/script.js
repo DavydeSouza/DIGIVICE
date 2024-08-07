@@ -79,7 +79,7 @@ $(document).ready(function() {
                         <div class="info">
                             <span class="number">${id}</span>
                             <h5 class="name">${name}</h5>
-                            <p class= "description">${description}</p>
+                            <p class="description text-muted">${description}</p>
                         </div>
                     `);
                 });
@@ -88,9 +88,11 @@ $(document).ready(function() {
                 const digiContainer = $('#digiContainer');
                 digiContainer.empty();
                 const digimonInnerHTML = `
+                <div class="noDigi">
                     <h1>Esse Digimon não existe </h1>
                     <img src="assests/Cutemon_sad-removebg-preview.png">
                     <a href="javascript:reload()">voltar para o inicio</a>
+                <div>
                 `;
                 digiContainer.append(digimonInnerHTML);
                 return false;
@@ -178,7 +180,7 @@ $(document).ready(function() {
                     <img src="${image}" class="img-fluid rounded shadow-sm mb-4" alt="${name.charAt(0).toUpperCase() + name.slice(1)}">
                 </div>
                 <div class="info">
-                    <span>${id.toString().padStart(3, '0')}</span>
+                    <span class="number">${id.toString().padStart(3, '0')}</span>
                     <h4 class="name mt-2">${name.charAt(0).toUpperCase() + name.slice(1)}</h4>
                     <p class="description text-muted">${description}</p>
                 </div>
