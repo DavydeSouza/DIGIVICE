@@ -1,98 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Digivice</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Favicon -->
     <link rel="icon" href="assets/img/tumblr_0582dd01120c1215ee52aba49370dea9_af66af14_540.webp" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <!-- MDB UI Kit -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-        <button class="navbar-toggler text-white" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarToggleExternalContent2" aria-controls="navbarToggleExternalContent2" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-</nav>
-
-<!-- Collapsible content -->
-<div class="collapse" id="navbarToggleExternalContent2">
-  <div class="bg-body-tertiary shadow-3 p-4">
-      <button class="btn btn-link no-border custom-btn btn-block m-0 text-white" data-toggle="modal" data-target="#aboutModal">Sobre</button>
-      <a href="https://digi-api.com/" target="_blank" class="btn btn-link no-border custom-btn btn-block m-0 text-white">
-        DIGI-API
-    </a>
-  </div>
-</div>
-
-<img class="digititulo" src="assets/img/ca5ba7d121989a03a9e22518a3ccaab1-removebg-preview.png" alt="titulo">
-<h1>Digivice</h1>
-<div class="search-container">
-    <div class="search text-center">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search Digimon ..." aria-label="Username" aria-describedby="basic-addon1" id="searchInput" required>
-        <button class="btn btn-warning text-white" id="searchButton">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
-      </button>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark border border-dark rounded" style="background-color: #e97509;">
+      <div class="container-fluid text-center">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent2" aria-controls="navbarToggleExternalContent2" aria-expanded="false" aria-label="Toggle navigation">
+              <i class="fas fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse text-center" id="navbarToggleExternalContent2">
+              <button class="btn btn-link no-border custom-btn text-white " data-toggle="modal" data-target="#aboutModal">Informações</button>
+          </div>
       </div>
-    </div>
-</div>
-<div class="digiContainer" id="digiContainer"></div>
+  </nav>
 
-<!-- Modal Digimon Details -->
-<div class="modal fade" id="digimonModal" tabindex="-1" role="dialog" aria-labelledby="digimonModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-    <div class="modal-content modal-background">
-      <div class="modal-header">
-        <h5 class="modal-title" id="digimonModalLabel">Digimon Details</h5> 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Modal content will be injected here by JavaScript -->
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Sobre -->
-<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="aboutModalLabel">Sobre</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+    <img class="digititulo" src="assets/img/ca5ba7d121989a03a9e22518a3ccaab1-removebg-preview.png" alt="titulo">
+    <h1>Digivice</h1>
+    <div class="search-container">
+        <div class="search text-center">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search Digimon ..." aria-label="Username" aria-describedby="basic-addon1" id="searchInput" required>
+                <button class="btn btn-warning text-white" id="searchButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
                 </button>
-            </div>
-            <div class="informações">
-                <p>O projeto envolve a criação de um Digivice virtual, inspirado nos dispositivos vistos na franquia Digimon. Usando a Digi-API, o dispositivo permitirá aos usuários acessar informações sobre diferentes Digimons, incluindo suas evoluções e tipos. O projeto pode ser desenvolvido como uma aplicação web ou um aplicativo móvel.</p>
-            </div>
-            <div class="modal-footer">
             </div>
         </div>
     </div>
+    <div class="digiContainer" id="digiContainer"></div>
+<!-- Modal Digimon Details -->
+<div class="modal fade" id="digimonModal" tabindex="-1" role="dialog" aria-labelledby="digimonModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content modal-background">
+        <div class="modal-header">
+          <h5 class="modal-title" id="digimonModalLabel">Digimon Details</h5> 
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Modal content will be injected here by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Modal Sobre -->
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+          <div class="modal-header text-center">
+              <h5 class="modal-title" id="aboutModalLabel">Informações</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body-about bg-light">
+              <div class="container  text-center">
+                  <div class="row ml-5">
+                      <!-- Card 1 -->
+                      <div class="col-md-3 ml-5">
+                          <div class="card mb-4 shadow-sm">
+                              <img src="https://via.placeholder.com/300" class="card-img-top" alt="Desenvolvedor 1">
+                              <div class="card-body">
+                                  <h5 class="card-title">Desenvolvedor 1</h5>
+                                  <p class="card-text">
+                                    <img src="assets/img/icons/whatsapp-colorido.png" alt="Phone Icon" style="width: 16px; height: 16px;"> (11) 1234-5678<br>
+                                    <img src="assets/img/icons/instagram-colorido.png" alt="Instagram Icon" style="width: 16px; height: 16px;"> <a href="https://instagram.com/dev3">dev3</a><br>
+                                    <img src="assets/img/icons/facebook-colorido.png" alt="LinkedIn Icon" style="width: 16px; height: 16px;"> <a href="https://linkedin.com/in/dev3">dev3</a>
+                                </p>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- Card 2 -->
+                      <div class="col-md-3 ml-5">
+                          <div class="card mb-4 shadow-sm">
+                              <img src="https://via.placeholder.com/300" class="card-img-top" alt="Desenvolvedor 2">
+                              <div class="card-body">
+                                  <h5 class="card-title">Desenvolvedor 2</h5>
+                                  <p class="card-text">
+                                    <img src="assets/img/icons/whatsapp-colorido.png" alt="Phone Icon" style="width: 16px; height: 16px;"> (21) 991543513<br>
+                                    <img src="assets/img/icons/instagram-colorido.png" alt="Instagram Icon" style="width: 16px; height: 16px;"> <a href="https://instagram.com/luizrcnt">INSTAGRAM</a><br>
+                                    <img src="assets/img/icons/facebook-colorido.png" alt="LinkedIn Icon" style="width: 16px; height: 16px;"> <a href="https://linkedin.com/in/luizrodriguescastroneto">LINKEDIN</a>
+                                </p>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- Card 3 -->
+                      <div class="col-md-3 ml-5">
+                          <div class="card mb-4 shadow-sm">
+                              <img src="https://via.placeholder.com/300" class="card-img-top" alt="Desenvolvedor 3">
+                              <div class="card-body">
+                                  <h5 class="card-title">Desenvolvedor 3</h5>
+                                  <p class="card-text">
+                                      <img src="assets/img/icons/whatsapp-colorido.png" alt="Phone Icon" style="width: 16px; height: 16px;"> (11) 1234-5678<br>
+                                      <img src="assets/img/icons/instagram-colorido.png" alt="Instagram Icon" style="width: 16px; height: 16px;"> <a href="https://instagram.com/dev3">dev3</a><br>
+                                      <img src="assets/img/icons/facebook-colorido.png" alt="LinkedIn Icon" style="width: 16px; height: 16px;"> <a href="https://linkedin.com/in/dev3">dev3</a>
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <p class="card-text">
+                      <strong>TODAS AS INFORMAÇÕES RETIRADA DA API:</strong> <a href="">DAPI</a>
+                  </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
 
-<!-- Popper.js (necessário para alguns componentes do Bootstrap) -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <!-- Popper.js (necessário para alguns componentes do Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 
-<script src="/assets/js/script.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <!-- MDB UI Kit -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
