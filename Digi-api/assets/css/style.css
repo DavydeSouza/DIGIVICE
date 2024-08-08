@@ -33,9 +33,10 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px;
     margin: 0 auto;
     max-width: 100%;
+    padding-left: 2%;
 }
 
 .digimon {
@@ -44,7 +45,7 @@ h1 {
     box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
     margin: 10px;
     padding: 20px;
-    width: 250px; 
+    width: 230px; 
     height: 350px;
     text-align: center;
     display: flex;
@@ -139,7 +140,7 @@ a.digimon{
 .modal-body img {
 max-width: 100%;
 height: auto;
-border-radius: 8px; /* Arredonda as bordas da imagem */
+border-radius: 8px;
 }
 
 .modal-body p {
@@ -148,7 +149,7 @@ margin: 0.5rem 0;
 }
 
 .modal-content {
-border-radius: 8px; /* Arredonda as bordas da modal */
+border-radius: 8px;
 }
 .btn-warning {
 background-color: #e97509;
@@ -217,48 +218,112 @@ background-color: #d66408;
     display: block;
     margin-top: 20px;
     text-decoration: none;
-    color: #e97509; /* Cor de destaque */
+    color: #e97509;
     font-weight: bold;
 }
 btn-link {
-    text-decoration: none; /* Remove o sublinhado */
+    text-decoration: none;
 }
 
-/* Remover a linha de baixo no botão */
 .btn-link.no-border {
-    border-bottom: none; /* Remove a borda inferior */
+    border-bottom: none;
 }
 
-/* Personalizar a aparência do botão */
+
 .btn-link.custom-btn {
-    color: #000000; /* Cor do texto */
-    padding: 10px 15px; /* Espaçamento interno */
-    font-size: 16px; /* Tamanho da fonte */
+    color: #000000;
+    padding: 10px 15px;
+    font-size: 16px;
 }
 
-/* Adicionar hover efeito */
 .btn-link.custom-btn:hover {
-    color: #000000; /* Cor do texto no hover */
-    background-color: #e9ecef; /* Cor de fundo no hover */
-    text-decoration: none; /* Garantir que não tenha sublinhado */
+    color: #000000;
+    background-color: #e9ecef;
+    text-decoration: none;
 }
 
-/* Estilo para o botão quando está ativo (clicado) */
 .btn-link.custom-btn:active,
 .btn-link.custom-btn:focus {
-    color: #000000; /* Cor do texto após clicar */
-    background-color: transparent; /* Cor de fundo após clicar */
-    text-decoration: none; /* Garantir que não tenha sublinhado */
-    box-shadow: none; /* Remove o contorno do foco */
+    color: #000000;
+    background-color: transparent;
+    text-decoration: none;
+    box-shadow: none;
 }
 
-/* Adicionar foco no botão */
 .btn-link.custom-btn:focus {
-    outline: none; /* Remove o contorno padrão do foco */
+    outline: none;
 }
 .informações .p {
     text-align: center;
     margin: auto;
     font-size: 1rem;
     margin-top: 0.5rem;
+}
+
+.custom-modal-dialog {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-body {
+    max-height: 843px;
+    overflow-y: auto;
+}
+
+@media (max-width: 1200px) {
+    .digiContainer {
+        padding-left: 0;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 992px) {
+    .digimon {
+        width: 210px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .digititulo{
+        width: 100%;
+    }
+    .digiContainer {
+        justify-content: center;
+        
+    }
+    .digimon {
+        width: 180px;
+    }
+    .search {
+        width: 80%;
+    }
+}
+
+@media (max-width: 576px) {
+    .digititulo{
+        width: 95%;
+    }
+    body{
+        width: 100%;
+    }
+    .digiContainer{
+        padding: 5%;
+        padding-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    .digimon {
+        width: 50%;
+        height: auto;
+        margin: 10px 0;
+
+    }
+    .search {
+        width: 70%;
+    }
 }
