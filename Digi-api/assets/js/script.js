@@ -148,7 +148,7 @@ const modal = (id) => {
                 <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     <div id="headingOne">
                         <h5 class="mb-0">   
-                            Evoluções
+                            Digievolutions
                         </h5>
                     </div>
                 </button>

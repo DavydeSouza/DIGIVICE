@@ -25,7 +25,7 @@ h1 {
     color: #e97509;
     font-weight: 400;
     font-style: normal;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     margin-top: 20px;
 }
 
@@ -326,4 +326,66 @@ btn-link {
     .search {
         width: 70%;
     }
+}
+#aboutModal .modal-content {
+    background-color: #f7f9fc; /* Fundo suave */
+    border-radius: 8px; /* Canto arredondado */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+/* Estilo para o cabeçalho do modal */
+#aboutModal .modal-header {
+    background-color: #ffffff; /* Cor de fundo azul */
+    color: rgb(0, 0, 0); /* Texto branco */
+    border-bottom: none; /* Remove a borda */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Estilo para o título do modal */
+#aboutModal .modal-title {
+    font-weight: bold;
+}
+
+/* Estilo para o botão de fechar */
+#aboutModal .close {
+    color: rgb(0, 0, 0); /* Botão de fechar branco */
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+#aboutModal .close:hover {
+    opacity: 1;
+}
+
+/* Estilo para o corpo do modal */
+#aboutModal .informações {
+    padding: 20px; /* Espaçamento interno */
+    font-size: 16px; /* Tamanho da fonte */
+    line-height: 1.6; /* Altura da linha */
+    color: #333; /* Cor do texto */
+}
+
+/* Estilo para o rodapé do modal */
+#aboutModal .modal-footer {
+    background-color: #f1f1f1; /* Fundo cinza claro */
+    border-top: none; /* Remove a borda */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+}
+
+/* Estilo para o botão de fechar no rodapé */
+#aboutModal .btn-secondary {
+    background-color: #6c757d; /* Cor do botão */
+    color: white; /* Texto branco */
+    border: none; /* Remove a borda */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 5px; /* Canto arredondado */
+    transition: background-color 0.3s;
+}
+
+#aboutModal .btn-secondary:hover {
+    background-color: #5a6268; /* Cor do botão ao passar o mouse */
 }
