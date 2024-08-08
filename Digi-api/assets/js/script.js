@@ -48,15 +48,15 @@ const pesquisar = (id) => {
             const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
             const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
             const digimonInnerHTML = `
-                <a href="#" class="digimon fade-in" id="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${digi.id}" data-name="${name}" data-image="${digi.image}">
-                    <div class="imgContainer">
-                        <img src="${digi.images[0].href}" alt="${name}">
-                    </div>
-                    <div class="info">
-                        <span class="number">${id}</span>
-                        <h4 class="name" style="font-size:20px">${name}</h4>
-                    </div>
-                </a>`;
+                <a href="#" class="digimon fade-in" id="digimon" data-toggle="modal" data-target="#digimonModal" onclick="modal(${digi.id})">
+                        <div class="imgContainer">
+                            <img src="${digi.images[0].href}" alt="${name}">
+                        </div>
+                        <div class="info">
+                            <span class="number">${id}</span>
+                            <h4 class="name" style="font-size:20px">${name}</h4>
+                        </div>
+                    </a>`;
             digiContainer.empty();
             digiContainer.append(digimonInnerHTML);
         },
