@@ -1,214 +1,203 @@
-$(document).ready(function() {
-    const itemsPerPage = 20;
-    let currentPage = 0;
-    let totalPages = 0;
-    const apiUrl = 'https://digi-api.com/api/v1/digimon';
-    const pagesToLoad = 9;
+const apiUrl = 'https://digi-api.com/api/v1/digimon';
+let currentPage = 0;
+const pageSize = 100;
+let source = false;
 
-    const fetchTotalData = () => {
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            success: function(data) {
-                totalPages = 1; // Inicializa totalPages
-                fetchDigimonData(currentPage, pagesToLoad); // Carrega páginas iniciais
-            }
-        });
-    };
-
-    function isNullOrEmpty(value) {
-        return value === null || value === undefined || value === '';
-    }
-
-    $("#searchButton").on("click", function(){
-        pesquisar();
-    });
-
-    $("#searchInput").on('keydown', function(e){
-        if(e.key === "Enter"){
-            pesquisar();
-        }  
-    });
-
-    function pesquisar() {
-        let pesquisa = $("#searchInput").val();
-        if (isNullOrEmpty(pesquisa)) {
+const obterDigimons = (page) => {
+    $.ajax({
+        url: `${apiUrl}?page=${page}&pageSize=${pageSize}`,
+        method: 'GET',
+        success: function(data) {
             const digiContainer = $('#digiContainer');
-            digiContainer.empty();
-            fetchDigimonData(currentPage, 8); // Ajuste o número de páginas conforme necessário
-            $('.pagination').show();
-            return false;
-        }
-
-        $.ajax({
-            url: `${apiUrl}/${pesquisa}`,
-            method: 'GET',
-            success: function(data) {
-                debugger;
-                const name = data.name ? data.name.charAt(0).toUpperCase() + data.name.slice(1) : "Unknown";
-                const id = data.id ? data.id.toString().padStart(3, '0') : "000";
-                
-                const digiContainer = $('#digiContainer');
-                digiContainer.empty();
+    debugger
+            data.content.forEach(digi => {
+                const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
+                const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
                 const digimonInnerHTML = `
-                <a href="#" class="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${data.id}" data-name="${name}" data-image="${data.images[0].href}">
-                    <div class="imgContainer">
-                        <img src="${data.images[0].href}" alt="${name}">
-                    </div>
-                    <div class="info">
-                        <span class="number">${id}</span>
-                        <h5 class="name" style="font-size:20px">${name}</h5>
-                    </div>
-                </a>`;
-
-                digiContainer.append(digimonInnerHTML);
-                $('.pagination').hide();
-
-                // Event listener for card clicks
-                $('.digimon').on('click', function() {
-                    const id = $(this).data('id');
-                    var data = loadInfoDigimon(id);
-                    const name = data.name
-                    const description = data.descriptions[1].description;
-                    
-                    const image = data.images[0].href;
-                   
-
-                    $('.modal-body').html(`
-                        <img src="${image}" class="img-fluid" alt="${name}">
-                        <div class="info">
-                            <span class="number">${id.toString().padStart(3, '0')}</span>
-                            <h5 class="name">${name}</h5>
-                            <p class= "description">${description}</p>
+                    <a href="#" class="digimon fade-in" id="digimon" data-toggle="modal" data-target="#digimonModal" onclick="modal(${digi.id})">
+                        <div class="imgContainer">
+                            <img src="${digi.image}" alt="${name}">
                         </div>
-                    `);
-                });
-            },
-            error: function(data){
-                const digiContainer = $('#digiContainer');
-                digiContainer.empty();
-                const digimonInnerHTML = `
-                <div class="">
-                    <h1>Esse Digimon não existe </h1>
-                    <img src="assets/img/Cutemon_sad-removebg-preview.png">
-                    <a href="javascript:reload()">voltar para o inicio</a>
-                <div>
-                `;
+                        <div class="info">
+                            <span class="number">${id}</span>
+                            <h4 class="name" style="font-size:20px">${name}</h4>
+                        </div>
+                    </a>`;
+        
                 digiContainer.append(digimonInnerHTML);
-                return false;
-            }
-        });
-    }
-    const fetchDigimonData = (page = 0, numPages = 1) => {
-        var count = $('a.digimon').length;
+            });
 
-        if (count === 0) {
-            for (let i = 0; i < numPages; i++) {
-                $.ajax({
-                    url: `${apiUrl}${i===0? "" : `?page=${i}`}`,
-                    method: 'GET',
-                    async: false,
-                    success: function(data) {
-                        totalPages = Math.max(totalPages, page + i + 1); // Atualiza totalPages
-                        displayDigimon(data.content);
-                    }
-                });
-            }
-        } else {
-            for (let i = 0; i < pagesToLoad; i++) {
-                $.ajax({
-                    url: `${apiUrl}?page=${currentPage + totalPages + i}&size=${itemsPerPage}`,
-                    method: 'GET',
-                    success: function(data) {
-                        totalPages++;
-                        displayDigimon(data.content);
-                    }
-                });
-            }
+            currentPage++; // Incrementa a página atual
         }
-    };
+    });
+};
 
-    const loadInfoDigimon = (id) =>{
-        let retorno = []
-        $.ajax({
-            url :`${apiUrl}/${id}`,
-            method: 'GET',
-            async: false,
-            success: function(data){
-                retorno = data;
-            }
-        })
-        return retorno;
-    }
+//FUNÇÃO PARA VER SE O VALOR É NULL, UNDEFINED OU VAZIO
+function isNullOrEmpty(value) {
+    return value === null || value === undefined || value === '';
+}
 
-    const displayDigimon = (digimonList) => {
-        const digiContainer = $('#digiContainer');
-    
-        digimonList.forEach(digi => {
+//FUNÇÃO DE PESQUISAR POR ID
+const pesquisar = (id) => {
+    source = true;
+    $.ajax({
+        url: `${apiUrl}/${id}`,
+        method: 'GET',
+        success: function(digi) {
+            const digiContainer = $('#digiContainer');
             const name = digi.name ? digi.name.charAt(0).toUpperCase() + digi.name.slice(1) : "Unknown";
             const id = digi.id ? digi.id.toString().padStart(3, '0') : "000";
             const digimonInnerHTML = `
                 <a href="#" class="digimon fade-in" id="digimon" data-toggle="modal" data-target="#digimonModal" data-id="${digi.id}" data-name="${name}" data-image="${digi.image}">
                     <div class="imgContainer">
-                        <img src="${digi.image}" alt="${name}">
+                        <img src="${digi.images[0].href}" alt="${name}">
                     </div>
                     <div class="info">
                         <span class="number">${id}</span>
                         <h4 class="name" style="font-size:20px">${name}</h4>
                     </div>
                 </a>`;
-    
+            digiContainer.empty();
             digiContainer.append(digimonInnerHTML);
-        });
-
-        // Event listener for card clicks
-        $('.digimon').on('click', function() {
-            const id = $(this).data('id');
-            const name = $(this).data('name');
-            var data = loadInfoDigimon(id);
-            let description = '';
-            if (data.descriptions.length > 1){
-                 description = data.descriptions[1].description ?? "";
+        },
+            error: function(data){
+                const digiContainer = $('#digiContainer');
+                digiContainer.empty();
+                const digimonInnerHTML = `
+                <div class="text-center mt-3">
+                    <h1>Esse Digimon não existe </h1>
+                    <img src="assets/img/Cutemon_sad-removebg-preview.png">
+                <div>
+                    <a href="javascript:reload()">voltar para o inicio</a>
+                `;
+                digiContainer.append(digimonInnerHTML);
+                return false;
             }
-                
-            const image = data.images[0].href;
+    });
+};
 
+//APERTANDO A TECLA ENTER NA PESQUISA
+$("#searchInput").on('keydown', function(e){    
+    if(e.key === "Enter"){
+        pesquisar(this.value);
+    }  
+});
 
-    
-            $('.modal-body').html(`
-                 <div class="text-center">
-                    <img src="${image}" class="img-fluid rounded shadow-sm mb-4" alt="${name.charAt(0).toUpperCase() + name.slice(1)}">
+//APERTANDO NO BOTÃO DA PESQUISA
+$("#searchButton").on("click", function(){
+    pesquisar($("#searchInput").val());
+});
+
+//INFORMAÇÕES DA MODAL
+const modal = (id) => {
+    var data = infoDigimon(id);
+    const name = data.name;
+    const description = data.descriptions.length > 1 ? data.descriptions[1].description : "";
+    const image = data.images[0].href;
+
+    let cardsHtml = '';
+    if (data.nextEvolutions.length > 0) {
+        for (let i = 0; i < Math.min(data.nextEvolutions.length, data.nextEvolutions.length); i++) {
+            const evolution = data.nextEvolutions[i];
+            cardsHtml += `
+                <div class="col-sm-2 mb-3">
+                    <div class="card text-center">
+                        <h5>${evolution.digimon || "Unknown"}</h5>
+                        <img src="${evolution.image || "default-image.jpg"}" class="img-fluid card-img-top" alt="${evolution.digimon || "No Name"}">
+                        <div><strong>ID:</strong> ${evolution.id ? evolution.id.toString().padStart(3, '0') : "N/A"}</div>
+                    </div>
                 </div>
-                <div class="info">
-                    <span>${id.toString().padStart(3, '0')}</span>
-                    <h4 class="name mt-2">${name.charAt(0).toUpperCase() + name.slice(1)}</h4>
-                    <p class="description text-muted">${description}</p>
-                </div>
-            `);
-        });
-    };
+            `;
+        }
+    } else {
+        cardsHtml = `<p>Sem informações de digievoluções</p>`;
+    }
 
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-            fetchDigimonData(currentPage, 8); // Carrega mais páginas
+    let skills = '';
+    if (data.skills.length > 0) {
+        for (let i = 0; i < data.skills.length; i++) {
+            skills += data.skills[i].skill;
+            if (i < data.skills.length - 1) {
+                skills += ', ';
+            }
+        }
+    } else {
+        skills = 'Sem informações';
+    }
+
+    // Atualizar o conteúdo da modal com o Accordion
+    var html = `
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="${image}" class="img-fluid" alt="${name}">
+            </div>
+            <div class="col-lg-8">
+                <h4>${name}</h4>
+                <p><strong>ID:</strong> ${id.toString().padStart(3, '0')}</p>
+                <p><strong>Descrição:</strong> ${description || "Sem informações"}</p>
+                <p><strong>Level:</strong> ${data.levels.length > 0 ? data.levels[0].level : "Sem informações"}</p>
+                <p><strong>Tipo:</strong> ${data.types.length > 0 ? data.types[0].type : "Sem informações"}</p>
+                <p><strong>Atributos:</strong> ${data.attributes.length > 0 ? data.attributes[0].attribute : "Sem informações"}</p>
+                <p><strong>Skills:</strong> ${skills}</p>
+            </div>
+        </div>
+
+        <!-- Accordion -->
+        <div class="accordion mt-4" id="accordionExample">
+            <div class="card">
+                <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <div id="headingOne">
+                        <h5 class="mb-0">   
+                            Evoluções
+                        </h5>
+                    </div>
+                </button>
+
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="row">
+                            ${cardsHtml}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    $('.modal-body').empty();
+    $('.modal-body').html(html);
+}
+
+//PEGA AS INFORMAÇÕES POR ID
+const infoDigimon = (id) =>{
+    let retorno = []
+    $.ajax({
+        url :`${apiUrl}/${id}`,
+        method: 'GET',
+        async: false,
+        success: function(data){
+            retorno = data;
+        }
+    })
+    return retorno;
+}
+
+//FUNÇÃO PARA RECARREGAR A TELA
+const reload = () =>{
+    window.location.reload();
+}
+
+//INICIA QUANDO A TELA CARREGA
+$(document).ready(function() { 
+    $('html, body').scrollTop(0);
+
+    obterDigimons(currentPage);
+
+    $(window).on('scroll', () => {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+            if(!source){
+                obterDigimons(currentPage);
+            }
         }
     });
-
-    $(document).ready(function(){
-        // Certifique-se de que a modal "Sobre" não seja alterada
-        $('#someOtherModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-    
-            // Evite alterar o conteúdo da modal "Sobre"
-            if (modal.attr('id') !== 'aboutModal') {
-                modal.find('.modal-title').text('New title');
-                modal.find('.modal-body p').text('New content');
-            }
-        });
-    });
-
-    // Inicializa os dados e exibe as páginas iniciais
-    fetchTotalData();
-    $("#searchInput").focus();
 });
