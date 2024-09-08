@@ -149,7 +149,7 @@ margin: 0.5rem 0;
 }
 
 .modal-content {
-border-radius: 8px;
+    border-radius: 8px;
 }
 .btn-warning {
 background-color: #e97509;
