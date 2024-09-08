@@ -37,4 +37,8 @@ const getDigimons = async (id) => {
         console.error(`Error fetching Digimon with ID ${id}:`, error);
     }
 };
-};
+```
+# Onde posso acompanhar o progresso do site?
+Atualmente, o projeto está disponível de forma provisória no seguinte endereço: https://caravanastours.com.br/digimon. Em breve, ele estará em um domínio próprio.
+
+
