@@ -193,9 +193,13 @@ $(document).ready(function() {
 
     obterDigimons(currentPage);
 
-    $(window).on('scroll', () => {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-            if(!source){
+    $(window).on('scroll touchmove', () => {
+        const scrollTop = $(window).scrollTop();
+        const windowHeight = $(window).height();
+        const documentHeight = $(document).height();
+        
+        if (scrollTop + windowHeight >= documentHeight - 50) { // Ajuste para acionar um pouco antes do final
+            if (!source) {
                 obterDigimons(currentPage);
             }
         }
